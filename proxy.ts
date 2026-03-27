@@ -7,7 +7,8 @@ const PROTECTED_ROUTES = ["/dashboard"];
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // read JWT directly (edge compatible)
+  const response = await updateSession(request);
+
   const token = await getToken({
     req: request,
     secret: process.env.AUTH_SECRET,
@@ -21,11 +22,11 @@ export async function proxy(request: NextRequest) {
     }
   }
 
-  return updateSession(request);
+  return response;
 }
 
 export const config = {
   matcher: [
-    "/((?!_next/static|_next/image|favicon.ico|api|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
+    "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:png|jpg|jpeg|svg|gif|webp)$).*)",
   ],
 };

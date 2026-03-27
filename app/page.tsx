@@ -5,7 +5,6 @@ import { createClient } from "@supabase/supabase-js";
 import type { Database } from "@/types/database";
 import { SearchBar } from "@/components/shared/search-bar";
 import { PropertyCard } from "@/components/properties/property-card";
-import { NuqsAdapter } from "nuqs/adapters/next/app";
 import {
   ArrowRight,
   Shield,

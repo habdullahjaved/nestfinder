@@ -170,7 +170,7 @@ export default async function HomePage() {
   ]);
 
   return (
-    <NuqsAdapter>
+    <>
       {/* CSS-variable-based hover states (no JS handlers needed) */}
       <style>{`
         .neighbourhood-card {
@@ -735,6 +735,6 @@ export default async function HomePage() {
           </div>
         </section>
       </div>
-    </NuqsAdapter>
+    </>
   );
 }

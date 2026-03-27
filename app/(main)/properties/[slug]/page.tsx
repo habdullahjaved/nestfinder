@@ -213,6 +213,7 @@ export default async function PropertyDetailPage({ params }: Props) {
           </div>
 
           {/* Sidebar */}
+          {/* test */}
           <div className="flex flex-col gap-6 lg:w-80">
             {property.agents && <AgentCard agent={property.agents as any} />}
 

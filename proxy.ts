@@ -1,10 +1,12 @@
+// proxy.ts (root)
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "@/lib/supabase/middleware";
 import { getToken } from "next-auth/jwt";
 
 const PROTECTED_ROUTES = ["/dashboard"];
 
-export async function proxy(request: NextRequest) {
+export default async function proxy(request: NextRequest) {
+  // ← default added
   const { pathname } = request.nextUrl;
 
   const response = await updateSession(request);

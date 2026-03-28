@@ -33,10 +33,6 @@ function getAdmin() {
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 }
-// console.log("SUPABASE_URL:", process.env.NEXT_PUBLIC_SUPABASE_URL);
-// console.log("SUPABASE_KEY:", process.env.SUPABASE_SERVICE_ROLE_KEY);
-// console.log("SUPABASE_URL:", process.env.SUPABASE_URL ? "SET" : "NOT SET");
-// console.log("SUPABASE_KEY:", process.env.SUPABASE_KEY ? "SET" : "NOT SET");
 async function getFeaturedProperties() {
   const supabase = getAdmin();
   const { data } = await supabase

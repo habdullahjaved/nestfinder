@@ -1,6 +1,6 @@
 // proxy.ts (root)
 import { NextRequest, NextResponse } from "next/server";
-import { updateSession } from "./lib/supabase/middleware";
+import { updateSession } from "@/lib/supabase/middleware";
 import { getToken } from "next-auth/jwt";
 
 const PROTECTED_ROUTES = ["/dashboard"];
@@ -8,13 +8,11 @@ const PROTECTED_ROUTES = ["/dashboard"];
 export default async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // Always run Supabase session refresh first
   const response = await updateSession(request);
 
-  // Then check next-auth JWT for protected routes
   const token = await getToken({
     req: request,
-    secret: process.env.AUTH_SECRET,
+    secret: process.env.AUTH_SECRET ?? process.env.NEXTAUTH_SECRET,
   });
 
   if (PROTECTED_ROUTES.some((route) => pathname.startsWith(route))) {

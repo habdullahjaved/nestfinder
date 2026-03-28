@@ -23,24 +23,49 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
       if (!user.email || !user.id) return true;
 
       const supabase = getSupabaseAdmin();
-      const { error } = await supabase.from("profiles").upsert(
-        {
+
+      const { data: existing } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("email", user.email)
+        .single();
+
+      if (existing) {
+        await supabase
+          .from("profiles")
+          .update({
+            full_name: user.name ?? null,
+            avatar_url: user.image ?? null,
+            updated_at: new Date().toISOString(),
+          })
+          .eq("email", user.email);
+      } else {
+        await supabase.from("profiles").insert({
           id: user.id,
           email: user.email,
           full_name: user.name ?? null,
           avatar_url: user.image ?? null,
-        },
-        { onConflict: "id" },
-      );
+          role: "user",
+        });
+      }
 
-      if (error) console.error("[auth] upsert error:", error.message);
       return true;
     },
-    async jwt({ token, user }) {
-      if (user?.id) token.sub = user.id;
 
+    async jwt({ token, user }) {
+      if (user?.email) {
+        const supabase = getSupabaseAdmin();
+        const { data: profile } = await supabase
+          .from("profiles")
+          .select("id")
+          .eq("email", user.email)
+          .single();
+
+        if (profile?.id) token.sub = profile.id;
+      }
       return token;
     },
+
     async session({ session, token }) {
       if (token.sub) session.user.id = token.sub;
       return session;

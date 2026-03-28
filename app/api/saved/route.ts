@@ -39,6 +39,7 @@ export async function POST(req: NextRequest) {
   const { error } = await supabase
     .from("saved_properties")
     .insert({ user_id: session.user.id, property_id: propertyId });
+  console.error("[saved] insert error:", JSON.stringify(error));
 
   if (error)
     return NextResponse.json({ error: error.message }, { status: 500 });

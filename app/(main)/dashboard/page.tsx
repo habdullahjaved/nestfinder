@@ -25,14 +25,14 @@ export default async function DashboardPage() {
     .from("saved_properties")
     .select(
       `
-      property_id,
-      properties (
-        id, slug, title, price, price_per, listing_type,
-        property_type, bedrooms, bathrooms, area_sqft,
-        address, neighbourhood, images, is_featured, amenities,
-        agents ( name, agency, phone, avatar_url )
-      )
-    `,
+         property_id,
+         properties (
+         id, slug, title, price, price_per, listing_type,
+         property_type, bedrooms, bathrooms, area_sqft,
+         address, neighbourhood, images, is_featured, amenities,
+         agents ( name, agency, phone, avatar_url )
+         )
+      `,
     )
     .eq("user_id", session.user.id)
     .order("created_at", { ascending: false });
